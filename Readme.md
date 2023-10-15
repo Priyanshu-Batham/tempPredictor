@@ -39,7 +39,10 @@ The Weather Prediction and Data Management System is a simple desktop applicatio
 
 # Installation
 - Make sure you have Python 3.x installed on your system.
-- Install required dependencies using: pip install tkinter matplotlib scikit-learn
+- Install required dependencies using: pip install matplotlib scikit-learn
+- If you are using IDLE:
+-- Copy the project files into the defult python IDLE's location
+-- Run UI.py
 
 # Usage
 - Run UI.py to start the application.
