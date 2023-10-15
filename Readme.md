@@ -34,8 +34,8 @@ The Weather Prediction and Data Management System is a simple desktop applicatio
 # Project Structure
 
 - **database.py:** Contains functions for database management, including user registration, data addition, and more.
-**machineLearning.py:** Implements machine learning for temperature prediction.
-**UI.py** The main script for the GUI application.
+- **machineLearning.py:** Implements machine learning for temperature prediction.
+- **UI.py** The main script for the GUI application.
 
 # Installation
 - Make sure you have Python 3.x installed on your system.
