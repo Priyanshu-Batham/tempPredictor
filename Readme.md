@@ -50,7 +50,7 @@ The Weather Prediction and Data Management System is a simple desktop applicatio
 # Developers words
 - The **test.py** file was created for testing the functions of different modules.
 - I would like to share a rough sketch of how I designed the UI for this app.
-- ![UI](./asset/UI.jpg)
+![UI](./asset/UI.jpg)
 
 # Contributors
 #### *Priyanshu-Batham*
