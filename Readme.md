@@ -47,5 +47,10 @@ The Weather Prediction and Data Management System is a simple desktop applicatio
 - Manage temperature data, recover a forgotten password, or make predictions.
 - Visualize temperature data on a graph.
 
+# Developers words
+- The **test.py** file was created for testing the functions of different modules.
+- I would like to share a rough sketch of how I designed the UI for this app.
+- ![UI](./asset/UI.jpg)
+
 # Contributors
 #### *Priyanshu-Batham*
