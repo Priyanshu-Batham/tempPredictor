@@ -152,6 +152,9 @@ def getData():
 
 
 def addData(temp):
+    if temp == '':
+        print("Enter some Data")
+        return
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -159,7 +162,14 @@ def addData(temp):
     INSERT INTO dataset (temp)
     VALUES (?)
     '''
-    cursor.execute(query,(temp,))
+    if all(char.isdigit() for char in temp):
+        try:
+            cursor.execute(query,(temp,))
+            print("Temperature Recorded")
+        except KeyError as e:
+            print(e)
+    else:
+        print("Give Numeric Values")
 
     conn.commit()
     conn.close()
@@ -173,10 +183,13 @@ def deleteData(day):
     DELETE FROM dataset 
     WHERE id = (?)
     '''
-    try:
-        cursor.execute(query,(day,))
-    except:
-        print("Error occured")
+    if all(char.isdigit() for char in day):
+        try:
+            cursor.execute(query,(day,))
+        except:
+            print("Error occured")
+    else:
+        print("Enter Numeric Values")
 
     conn.commit()
     conn.close()
@@ -191,10 +204,13 @@ def updateData(day, temp):
     SET temp = (?)
     WHERE id = (?)
     '''
-    try:
-        cursor.execute(query,(temp, day))
-    except:
-        print("Error occured")
+    if all(char.isdigit() for char in day) and all(char.isdigit() for char in temp):
+        try:
+            cursor.execute(query,(temp, day))
+        except:
+            print("Error occured")
+    else: 
+        print("Enter Numeric Values")
 
     conn.commit()
     conn.close()
