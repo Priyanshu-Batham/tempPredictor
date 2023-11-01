@@ -22,8 +22,7 @@ def createTable():
 def createAccount(username, password, mobile, email):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
-
-
+    
     insert_query = '''
     INSERT INTO userInfo (username, password, mobileno, email)
     VALUES (?, ?, ?, ?)
@@ -154,7 +153,7 @@ def getData():
 def addData(temp):
     if temp == '':
         print("Enter some Data")
-        return
+        return "Enter some Data"
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -165,17 +164,24 @@ def addData(temp):
     if all(char.isdigit() for char in temp):
         try:
             cursor.execute(query,(temp,))
+            conn.commit()
+            conn.close()
             print("Temperature Recorded")
+            return "Temperature Recorded"
         except KeyError as e:
             print(e)
     else:
+        conn.commit()
+        conn.close()
         print("Give Numeric Values")
-
-    conn.commit()
-    conn.close()
+        return "Give Numeric Values"
 # --------------------------------------------------------------->>>>>>>>>>>
 
 def deleteData(day):
+
+    if(day == ""):
+        return "Enter the Day Number"
+
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -186,16 +192,26 @@ def deleteData(day):
     if all(char.isdigit() for char in day):
         try:
             cursor.execute(query,(day,))
+            conn.commit()
+            conn.close()
         except:
             print("Error occured")
+        else:
+            return "Temperature Deleted"
     else:
+        conn.commit()
+        conn.close()
         print("Enter Numeric Values")
+        return "Enter Numeric Values"
 
-    conn.commit()
-    conn.close()
+    
 # --------------------------------------------------------------->>>>>>>>>>>
 
 def updateData(day, temp):
+
+    if(day == "" or temp == ""):
+        return "Enter Data in both fields"
+
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
 
@@ -208,12 +224,17 @@ def updateData(day, temp):
         try:
             cursor.execute(query,(temp, day))
         except:
+            conn.commit()
+            conn.close()
             print("Error occured")
+            return "Error Occured"
+        else:
+            return "Temperature Updated"
     else: 
         print("Enter Numeric Values")
+        return "Enter Numeric Values"
 
-    conn.commit()
-    conn.close()
+    
 # --------------------------------------------------------------->>>>>>>>>>>
 
 def clearDataset():

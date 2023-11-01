@@ -7,4 +7,5 @@ from machineLearning import *
 # deleteData(3)
 # showData()
 # p = predict()
+# clearUserInfo()
 showUserData()
