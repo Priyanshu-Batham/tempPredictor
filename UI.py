@@ -1,6 +1,8 @@
 import tkinter as tk
+from captcha.image import ImageCaptcha
+import random
 from customtkinter import *
-from tkinter import ttk
+from PIL import Image
 from tkinter import messagebox
 from database import *
 from machineLearning import *
@@ -19,6 +21,24 @@ def loginBtn():
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
 
+#CAPTCHA GENERATING FUNCTION
+def generateCaptcha():
+
+    lower = "abcdefghijklmnopqrstuvwxyz"
+    upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    nums = "1234567890"
+
+    total = nums+lower+upper
+    chars = "".join(random.sample(total, 6))
+
+    capObj = ImageCaptcha(height=150, width=250)
+    capObj.write(chars=chars, output="asset/captcha/cap.png")
+
+    print(chars)
+    return chars
+
+
+#REGISTER BUTTON
 def registerBtn():
     login_frame.pack_forget()
     register_frame.pack(expand=True, fill=tk.BOTH)
@@ -28,8 +48,16 @@ def signUpBtn():
     password = register_password_entry.get()
     mobile = register_mobile_entry.get()
     email = register_email_entry.get()
+    captcha = cap_entry.get()
 
-    if(username == "" or password == ""):
+    if(captcha != chars):
+        print("Incorrect Captcha Letters")
+        register_error.configure(text = "Incorrect Captcha Letters!")
+        return
+
+    if(username == "" or password == "" or mobile == "" or email == ""):
+        print("Fill All the entries")
+        register_error.configure(text = "Fill All the entries!")
         return 
 
     createAccount(username, password, mobile, email)
@@ -72,7 +100,7 @@ def predictBtn():
     response = predict()
     outputHeading.configure(text=f"Tomorrow's temperature for Day{response[0]} is  {response[1]} \u00b0C", font=("aerial", 40))
 
-#DATASET
+#DATASET-------------------------------------------------------->>>>>>>>>>
 def showData():
     data = getData()
     outputHeading.configure(text=f"{data}", font=("aerial", 20))
@@ -90,7 +118,10 @@ def deletingData():
     res = deleteData(day_entry.get())
     outputHeading.configure(text=f"{res}", font=("aerial", 30))
 
-
+#NAVIGATION------------------------------->>>>>>>>>>>>>
+def registerToLogin():
+    register_frame.pack_forget()
+    login_frame.pack(expand=True, fill=tk.BOTH)
 
 # ---------------------------------FRAMES--------------------------------->>>>>>>>>
 # MAIN 
@@ -125,23 +156,40 @@ forgot_button.place(rely = 0.55, relx=0.5, anchor="center")
 #REGISTER 
 register_frame = CTkFrame(master=root)
 
+back_to_login_button = CTkButton(master=register_frame, text="\u2190", width=10, height=50, corner_radius=100, command=registerToLogin)
+back_to_login_button.place(rely = 0.05, relx=0.05, anchor="center")
+
 registerHeading=CTkLabel(master=register_frame, width=1000, height=100, text="Register", font=("aerial", 72), text_color="white")
-registerHeading.place(anchor="center", relx=0.5, rely=0.2)
+registerHeading.place(anchor="center", relx=0.5, rely=0.1)
 
 register_username_entry = CTkEntry(master=register_frame, width=500, height=50, placeholder_text="Username")
-register_username_entry.place(rely = 0.35, relx=0.5,anchor="center")
+register_username_entry.place(rely = 0.25, relx=0.5,anchor="center")
 
 register_password_entry = CTkEntry(master=register_frame, width=500, height=50, placeholder_text="Password")
-register_password_entry.place(rely = 0.4, relx=0.5,anchor="center")
+register_password_entry.place(rely = 0.3, relx=0.5,anchor="center")
 
 register_mobile_entry = CTkEntry(master=register_frame, width=500, height=50, placeholder_text="Mobile Number")
-register_mobile_entry.place(rely = 0.45, relx=0.5,anchor="center")
+register_mobile_entry.place(rely = 0.35, relx=0.5,anchor="center")
 
 register_email_entry = CTkEntry(master=register_frame, width=500, height=50, placeholder_text="Email")
-register_email_entry.place(rely = 0.5, relx=0.5,anchor="center")
+register_email_entry.place(rely = 0.4, relx=0.5,anchor="center")
 
-signUp_button = CTkButton(master=register_frame, text="Sign Up", command=signUpBtn)
-signUp_button.place(rely = 0.55, relx=0.5, anchor="center")
+# captcha inside register---------------------------->>>
+chars = generateCaptcha()
+path = "asset/captcha/cap.png"
+i = CTkImage(light_image=Image.open(path), size=(250,100))
+
+cap=CTkLabel(master=register_frame, width=1000, height=100, image=i, text="")
+cap.place(anchor="center", relx=0.5, rely=0.5)
+
+cap_entry = CTkEntry(master=register_frame, width=250, height=30, placeholder_text="Captcha:")
+cap_entry.place(rely = 0.57, relx=0.5,anchor="center")
+
+signUp_button = CTkButton(master=register_frame, text="Sign Up", command=signUpBtn, height=50, width=100)
+signUp_button.place(rely = 0.65, relx=0.5, anchor="center")
+
+register_error=CTkLabel(master=register_frame, width=1000, height=100, text="", font=("aerial", 50), text_color="red")
+register_error.place(anchor="center", relx=0.5, rely=0.72)
 
 
 #FORGOT PASSWORD
