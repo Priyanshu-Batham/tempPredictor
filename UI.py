@@ -102,8 +102,18 @@ def predictBtn():
 
 #DATASET-------------------------------------------------------->>>>>>>>>>
 def showData():
+    str = "   Day     Temperature\n\n"
     data = getData()
+    for record in data:
+        str += f"{record[0]} \t {record[1]}\n"
+
     outputHeading.configure(text=f"{data}", font=("aerial", 20))
+
+    dataWindow = tk.Toplevel(root)
+    dataLabel=CTkLabel(master=dataWindow, width=1000, height=100, text=str, font=("aerial", 50), text_color="black")
+    dataLabel.place(anchor="center", relx=0.5, rely=0.2)
+    dataLabel.pack()
+
     print(data)
 
 def addingData():
@@ -121,6 +131,18 @@ def deletingData():
 #NAVIGATION------------------------------->>>>>>>>>>>>>
 def registerToLogin():
     register_frame.pack_forget()
+    login_frame.pack(expand=True, fill=tk.BOTH)
+
+def forgotToLogin():
+    forgot_frame.pack_forget()
+    login_frame.pack(expand=True, fill=tk.BOTH)
+
+def changeToLogin():
+    change_frame.pack_forget()
+    login_frame.pack(expand=True, fill=tk.BOTH)
+
+def homeToLogin():
+    home_frame.pack_forget()
     login_frame.pack(expand=True, fill=tk.BOTH)
 
 # ---------------------------------FRAMES--------------------------------->>>>>>>>>
@@ -195,6 +217,9 @@ register_error.place(anchor="center", relx=0.5, rely=0.72)
 #FORGOT PASSWORD
 forgot_frame = CTkFrame(master=root)
 
+forgot_to_login_button = CTkButton(master=forgot_frame, text="\u2190", width=10, height=50, corner_radius=100, command=forgotToLogin)
+forgot_to_login_button.place(rely = 0.05, relx=0.05, anchor="center")
+
 registerHeading=CTkLabel(master=forgot_frame, width=1000, height=100, text="Enter Credentials", font=("aerial", 72), text_color="white")
 registerHeading.place(anchor="center", relx=0.5, rely=0.2)
 
@@ -213,6 +238,9 @@ validate_button.place(rely = 0.55, relx=0.5, anchor="center")
 #CHANGE PASSWORD
 change_frame = CTkFrame(master=root)
 
+change_to_login_button = CTkButton(master=change_frame, text="\u2190", width=10, height=50, corner_radius=100, command=changeToLogin)
+change_to_login_button.place(rely = 0.05, relx=0.05, anchor="center")
+
 changeHeading=CTkLabel(master=change_frame, width=1000, height=100, text="Set New Password", font=("aerial", 72), text_color="white")
 changeHeading.place(anchor="center", relx=0.5, rely=0.2)
 
@@ -224,6 +252,9 @@ change_button.place(rely = 0.55, relx=0.5, anchor="center")
 
 # HOME 
 home_frame = CTkFrame(master=root)
+
+home_to_login_button = CTkButton(master=home_frame, text="\u2190", width=10, height=50, corner_radius=100, command=homeToLogin)
+home_to_login_button.place(rely = 0.05, relx=0.05, anchor="center")
 
 welcomeHeading=CTkLabel(master=home_frame, width=1000, height=100, text="Welcome", font=("aerial", 72), text_color="white")
 welcomeHeading.place(anchor="center", relx=0.5, rely=0.1)
