@@ -14,6 +14,7 @@ def predict():
     X = data[:, 0].reshape(-1,1)
     y = data[:, 1]
 
+
     # Create and train a Linear Regression model
     model = LinearRegression()
     model.fit(X, y)

@@ -8,4 +8,5 @@ from machineLearning import *
 # showData()
 # p = predict()
 # clearUserInfo()
-showUserData()
+# showUserData()
+predict()

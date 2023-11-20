@@ -41,7 +41,7 @@ The Weather Prediction and Data Management System is a simple desktop applicatio
 - Make sure you have Python 3.x installed on your system.
 - Install required dependencies using: pip install matplotlib scikit-learn customtkinter captcha pillow
 - If you are using IDLE:
--- Copy the project files into the defult python IDLE's location
+-- Copy the project files into the defult python IDLE's locationn
 -- Run UI.py
 
 # Usage
