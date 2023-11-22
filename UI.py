@@ -21,6 +21,52 @@ def loginBtn():
     else:
         messagebox.showerror("Login Failed", "Invalid username or password")
 
+#--------------------------------------------------------------->>>>>>>>>>
+#ADMIN FUNCTION
+def adminLoginBtn():
+    username = username_entry.get()
+    password = password_entry.get()
+
+    if username == "admin" and password == "123":
+        login_frame.pack_forget() 
+        admin_frame.pack(expand=True, fill=tk.BOTH)      
+    else:
+        messagebox.showerror("Login Failed", "Invalid Admin username or password")
+
+# ------------------------------------------------->>>>>>>>>>>>>>>
+def userInfoBtn():
+    str = "   ID     NAME     PASSWORD     PH.NO     EMAIL\n\n"
+    data = showUserData()
+    for record in data:
+        str += f"{record}\n"
+
+    # outputHeading.configure(text=f"{data}", font=("aerial", 20))
+
+    dataWindow = tk.Toplevel(root)
+    dataLabel=CTkLabel(master=dataWindow, width=1000, height=100, text=str, font=("aerial", 50), text_color="black")
+    dataLabel.place(anchor="center", relx=0.5, rely=0.2)
+    dataLabel.pack()
+
+    print(data)
+
+# ------------------------------------------------->>>>>>>>>>>>>>>
+def auditTableBtn():
+    str = "   ID     TEMPERATURE     OPERATION     DATE     TIME\n\n"
+    data = getDatasetAudit()
+    for record in data:
+        str += f"{record}\n"
+
+    # outputHeading.configure(text=f"{data}", font=("aerial", 20))
+
+    dataWindow = tk.Toplevel(root)
+    dataLabel=CTkLabel(master=dataWindow, width=1000, height=100, text=str, font=("aerial", 50), text_color="black")
+    dataLabel.place(anchor="center", relx=0.5, rely=0.2)
+    dataLabel.pack()
+
+    print(data)
+
+
+# ------------------------------------------------------->>>>>>>>>>>>>>
 #CAPTCHA GENERATING FUNCTION
 def generateCaptcha():
 
@@ -107,7 +153,7 @@ def showData():
     for record in data:
         str += f"{record[0]} \t {record[1]}\n"
 
-    outputHeading.configure(text=f"{data}", font=("aerial", 20))
+    # outputHeading.configure(text=f"{data}", font=("aerial", 20))
 
     dataWindow = tk.Toplevel(root)
     dataLabel=CTkLabel(master=dataWindow, width=1000, height=100, text=str, font=("aerial", 50), text_color="black")
@@ -129,6 +175,10 @@ def deletingData():
     outputHeading.configure(text=f"{res}", font=("aerial", 30))
 
 #NAVIGATION------------------------------->>>>>>>>>>>>>
+def adminToLogin():
+    admin_frame.pack_forget()
+    login_frame.pack(expand=True, fill=tk.BOTH)
+
 def registerToLogin():
     register_frame.pack_forget()
     login_frame.pack(expand=True, fill=tk.BOTH)
@@ -173,6 +223,25 @@ register_button.place(rely = 0.51, relx=0.5, anchor="center")
 
 forgot_button = CTkButton(master=login_frame, text="Forgot Password?", command=forgotPasswordBtn)
 forgot_button.place(rely = 0.55, relx=0.5, anchor="center")
+
+admin_button = CTkButton(master=login_frame, text="Admin Login", command=adminLoginBtn)
+admin_button.place(rely = 0.59, relx=0.5, anchor="center")
+
+
+# ADMIN
+admin_frame = CTkFrame(master=root)
+
+admin_to_login_button = CTkButton(master=admin_frame, text="\u2190", width=10, height=50, corner_radius=100, command=adminToLogin)
+admin_to_login_button.place(rely = 0.05, relx=0.05, anchor="center")
+
+adminHeading=CTkLabel(master=admin_frame, width=1000, height=100, text="Admin Panel", font=("aerial", 72), text_color="white")
+adminHeading.place(anchor="center", relx=0.5, rely=0.1)
+
+userInfo_button = CTkButton(master=admin_frame, text="User Info", command=userInfoBtn, height= 100)
+userInfo_button.place(rely = 0.5, relx=0.4, anchor="center")
+
+auditTable_button = CTkButton(master=admin_frame, text="Audit Table", command=auditTableBtn, height= 100)
+auditTable_button.place(rely = 0.5, relx=0.6, anchor="center")
 
 
 #REGISTER 
@@ -289,6 +358,8 @@ outputHeading.place(anchor="center", relx=0.5, rely=0.7)
 #----------------------------INITIALIZING--------------------->>>>>>>>>>>>>
 createTable()
 createDataset()
+createDatasetAudit()
+createDatasetTrigger()
 login_frame.pack(expand=True, fill=tk.BOTH)
 root.mainloop()
 # clearDataset()

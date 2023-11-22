@@ -1,4 +1,5 @@
 import sqlite3
+import datetime
 
 # --------------------------------------------------------------->>>>>>>>>>>
 def createTable():
@@ -17,8 +18,8 @@ def createTable():
     cursor.execute(create_table_query)
     conn.commit()
     conn.close()
-# --------------------------------------------------------------->>>>>>>>>>>
 
+# --------------------------------------------------------------->>>>>>>>>>>
 def createAccount(username, password, mobile, email):
     conn = sqlite3.connect("database.db")
     cursor = conn.cursor()
@@ -52,6 +53,7 @@ def showUserData():
         
     conn.commit()
     conn.close()
+    return data
 # --------------------------------------------------------------->>>>>>>>>>>
 
 def isUserPresent(username, password):
@@ -226,15 +228,16 @@ def updateData(day, temp):
         except:
             conn.commit()
             conn.close()
-            print("Error occured")
+            print(f"Error occured")
             return "Error Occured"
         else:
+            conn.commit()
+            conn.close()
             return "Temperature Updated"
     else: 
         print("Enter Numeric Values")
         return "Enter Numeric Values"
 
-    
 # --------------------------------------------------------------->>>>>>>>>>>
 
 def clearDataset():
@@ -242,6 +245,116 @@ def clearDataset():
     cursor = conn.cursor()
 
     cursor.execute("DELETE FROM dataset;")
+    print("Done")
+    
+    conn.commit()
+    conn.close()
+
+
+#DATASET TRIGGERS
+# --------------------------------------------------------------->>>>>>>>>>>
+def createDatasetAudit():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    create_table_query = '''
+    CREATE TABLE IF NOT EXISTS datasetAudit (
+        id INTEGER PRIMARY KEY,
+        temp INTEGER NOT NULL,
+        opr VARCHAR(10),
+        time TIME
+    );
+    '''
+    cursor.execute(create_table_query)
+    conn.commit()
+    conn.close()
+    # print("done")
+# --------------------------------------------------------------->>>>>>>>>>>
+def createDatasetTrigger():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    query1 = '''
+    CREATE TRIGGER IF NOT EXISTS datasetAddTrigger AFTER INSERT   
+    ON dataset  
+    BEGIN  
+    INSERT INTO datasetAudit(temp, opr, time) 
+    VALUES (NEW.temp, 'INS', datetime('now'));  
+    END;  
+    '''
+
+    query2 = '''
+    CREATE TRIGGER IF NOT EXISTS datasetUpdateTrigger BEFORE UPDATE   
+    ON dataset  
+    BEGIN  
+        INSERT INTO datasetAudit(temp, opr, time) 
+        VALUES (NEW.temp, 'UPDATE', datetime('now'));  
+    END; 
+    '''
+
+    query3 = '''
+    CREATE TRIGGER IF NOT EXISTS datasetDeleteTrigger BEFORE DELETE   
+    ON dataset  
+    BEGIN  
+        INSERT INTO datasetAudit(temp, opr, time) 
+        VALUES (OLD.temp, 'DEL', datetime('now'));  
+    END; 
+    '''
+    cursor.execute(query1)
+    cursor.execute(query2)
+    cursor.execute(query3)
+    conn.commit()
+    conn.close()
+    # print("done maybe")
+
+# --------------------------------------------------------------->>>>>>>>>>>
+def dropDatasetDeleteTrigger():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute('DROP TRIGGER datasetDeleteTrigger;')
+    conn.commit()
+    conn.close()
+    print("done maybe")
+
+# --------------------------------------------------------------->>>>>>>>>>>
+def dropDatasetAddTrigger():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute('DROP TRIGGER datasetAddTrigger;')
+    conn.commit()
+    conn.close()
+    print("done maybe")
+
+# --------------------------------------------------------------->>>>>>>>>>>
+def dropDatasetUpdateTrigger():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+    cursor.execute('DROP TRIGGER datasetUpdateTrigger;')
+    conn.commit()
+    conn.close()
+    print("done maybe")
+
+# --------------------------------------------------------------->>>>>>>>>>>
+
+def getDatasetAudit():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    query = '''
+    SELECT * FROM datasetAudit;
+    '''
+    cursor.execute(query)
+    data = cursor.fetchall()
+
+    conn.close()
+    return data
+
+def clearDatasetAudit():
+    conn = sqlite3.connect("database.db")
+    cursor = conn.cursor()
+
+    cursor.execute("DELETE FROM datasetAudit;")
+    print("Done")
     
     conn.commit()
     conn.close()
