@@ -301,7 +301,7 @@ forgot_mobile_entry.place(rely = 0.4, relx=0.5,anchor="center")
 forgot_email_entry = CTkEntry(master=forgot_frame, width=500, height=50, placeholder_text="Email")
 forgot_email_entry.place(rely = 0.45, relx=0.5,anchor="center")
 
-validate_button = CTkButton(master=forgot_frame, text="Sign Up", command=validateBtn)
+validate_button = CTkButton(master=forgot_frame, text="Validate", command=validateBtn)
 validate_button.place(rely = 0.55, relx=0.5, anchor="center")
 
 #CHANGE PASSWORD
@@ -316,7 +316,7 @@ changeHeading.place(anchor="center", relx=0.5, rely=0.2)
 change_password_entry = CTkEntry(master=change_frame, width=500, height=50, placeholder_text="New Password")
 change_password_entry.place(rely = 0.4, relx=0.5,anchor="center")
 
-change_button = CTkButton(master=forgot_frame, text="Change", command=validateBtn)
+change_button = CTkButton(master=change_frame, text="Change", command=changeBtn)
 change_button.place(rely = 0.55, relx=0.5, anchor="center")
 
 # HOME 
